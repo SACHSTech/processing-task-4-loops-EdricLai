@@ -1,36 +1,94 @@
+/**
+ * Description: using loops to draw sequences of objects
+ * @author: EdricLai
+*/
+
 import processing.core.PApplet;
 
 public class Sketch extends PApplet {
-	
-	
-  /**
-   * Called once at the beginning of execution, put your size all in this method
+  /*
+   * called once
+   * global variables
    */
+  int intWidth = 600;
+  int intHeight = 600;
+  float fltQuadWidth = intWidth / 2;
+  float fltQuadHeight = intHeight / 2;
+  float fltSpaceX;
+  float fltSpaceY;
+  float fltPosX;
+  float fltPosY;
+  float fltRotation;
+
+  /**
+   * called once
+   * initial general settings
+  */
   public void settings() {
-	// put your size call here
-    size(400, 400);
+    // screen size
+    size(intWidth, intHeight);
   }
 
   /** 
-   * Called once at the beginning of execution.  Add initial set up
-   * values here i.e background, stroke, fill etc.
+   * called once
+   * initial sketch settings
    */
   public void setup() {
-    background(210, 255, 173);
-  }
+    // global settings
+    strokeWeight(intWidth * intHeight / 100000);
+    background(255, 255, 255);
 
-  /**
-   * Called repeatedly, anything drawn to the screen goes here
-   */
-  public void draw() {
-	  
-	// sample code, delete this stuff
-    stroke(128);
-    line(150, 25, 270, 350);  
+    // quadrant 1: draws circles
+    // initializes variables
+    fltSpaceX = fltQuadWidth / 6;
+    fltSpaceY = fltQuadHeight / 6;
+    // repeated horizontally
+    for (fltPosX = fltQuadWidth + fltSpaceX; fltPosX <= fltQuadWidth * 2 - fltSpaceX; fltPosX += fltSpaceX){
+      // repeated vertically
+      for (fltPosY = 0 + fltSpaceY; fltPosY <= fltQuadHeight - fltSpaceY; fltPosY += fltSpaceY){
+        // draws circles
+        fill(255, 0, 155);
+        ellipse(fltPosX, fltPosY, fltQuadWidth / 10, fltQuadHeight / 10);
+      }
+    }
 
-    stroke(255);
-    line(50, 125, 70, 50);  
+    // quadrant 2: draws lines
+    // initializes variables
+    fltSpaceX = fltQuadWidth / 9;
+    fltSpaceY = fltQuadHeight / 9;
+    // repeated horizontally
+    for (fltPosX = 0; fltPosX <= fltQuadWidth; fltPosX += fltSpaceX){
+      line(fltPosX, 0, fltPosX, fltQuadHeight);
+    }
+    // repeated vertically
+    for (fltPosY = 0; fltPosY <= fltQuadHeight; fltPosY += fltSpaceY){
+      line(0, fltPosY, fltQuadWidth, fltPosY);
+    }
+
+    // quadrant 4: draws flower
+    // translates system origin to quadrant 4
+    translate(fltQuadWidth * 1.5f, fltQuadHeight * 1.5f);
+    // repeats 8 times
+    for (int i = 0; i <= 7; i++){
+        // rotates and draws petal every iteration
+        rotate(radians(45));
+        fill(255, 155, 0);
+        ellipse(0, fltQuadHeight / 5, fltQuadWidth / 10, fltQuadHeight / 3);
+    }
+    // draws center of flower
+    fill(0, 155, 0);
+    ellipse(0, 0, fltQuadWidth / 5, fltQuadHeight / 5);
+
+    // quadrant 3: draws gradient
+    // translates system origin to 0,0
+    translate(fltQuadWidth * -1.5f, fltQuadHeight * -1.5f);
+    // initializes variables
+    fltSpaceX = fltQuadWidth / 300;
+    // repeated horizontally
+    for (fltPosX = 0; fltPosX <= fltQuadWidth; fltPosX += fltSpaceX){
+        // draws brighter line every iteration
+        stroke(fltPosX * 0.75f, fltPosX * 0.75f, fltPosX * 0.75f);
+        line(fltPosX, fltQuadHeight, fltPosX, fltQuadHeight * 2);
+    }
   }
-  
-  // define other methods down here.
 }
